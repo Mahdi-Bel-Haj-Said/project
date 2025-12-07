@@ -1,5 +1,5 @@
 # Utiliser une image JDK 11 comme base
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:11-jre-alpine
 
 # Informations sur le projet
 LABEL maintainer="mahdibelhajsaid"
