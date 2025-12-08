@@ -80,18 +80,14 @@ public class EventServicesImpl implements IEventServices{
         List<Event> events = eventRepository.findByDateDebutBetween(date_debut, date_fin);
 
         List<Logistics> logisticsList = new ArrayList<>();
-        for (Event event:events){
-            if(event.getLogistics().isEmpty()){
-
-                return null;
+        for (Event event: events){
+            if (event.getLogistics() == null || event.getLogistics().isEmpty()) {
+                continue; // skip events without logistics
             }
-
-            else {
-                Set<Logistics> logisticsSet = event.getLogistics();
-                for (Logistics logistics:logisticsSet){
-                    if(logistics.isReserve())
-                        logisticsList.add(logistics);
-                }
+            Set<Logistics> logisticsSet = event.getLogistics();
+            for (Logistics logistics: logisticsSet){
+                if(logistics.isReserve())
+                    logisticsList.add(logistics);
             }
         }
         return logisticsList;
@@ -101,7 +97,6 @@ public class EventServicesImpl implements IEventServices{
     @Override
     public void calculCout() {
         List<Event> events = eventRepository.findByParticipants_NomAndParticipants_PrenomAndParticipants_Tache("Tounsi","Ahmed", Tache.ORGANISATEUR);
-    // eventRepository.findAll();
         float somme = 0f;
         for(Event event:events){
             log.info(event.getDescription());
